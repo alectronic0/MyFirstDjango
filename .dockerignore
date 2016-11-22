@@ -1,0 +1,7 @@
+*
+!admin/
+!polls/
+!manage.py
+!runtime.txt
+!requirements.txt
+!db.sqlite3

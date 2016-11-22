@@ -1,0 +1,29 @@
+{% extends 'polls/layout/base.html' %}
+
+{% block head_title %}
+Alectronic Polls App
+{% endblock %}
+
+{% block heading %}
+Alectronic Polls App
+{% endblock %}
+
+{% block content %}
+    <div>
+        <ul class="list-group">
+            {% if latest_question_list %}
+            {% for question in latest_question_list %}
+            <li class="list-group-item">
+                <a href="{% url  'polls:detail' question.id %}">{{ question.question_text }}</a>
+            </li>
+            {% endfor %}
+            {% else %}
+            <li class="list-group-item">
+                No polls are available.
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}
+
+
