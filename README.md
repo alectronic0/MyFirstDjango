@@ -6,6 +6,10 @@
 ## Quickstart
 ```bash
 git clone https://github.com/alectronic0/alectronic-polls.git
-cd MyFirstDjango/mysite
+cd alectronic-polls
+virtualenv alectronic-polls
+source alectronic-polls/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
 python manage.py runserver
 ```
