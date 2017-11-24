@@ -26,7 +26,7 @@ SECRET_KEY = '&yg5pf(f3p_+sqga)e$mjt18-dq!2t#+7#k)v%_2omlx@$*%@h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', '10.0.60.83']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', '10.0.60.83', 'alectronic-polls.herokuapp.com']
 
 # Application definition
 
