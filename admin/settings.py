@@ -112,7 +112,7 @@ STATIC_URL = '/static/'
 
 # Extra places for collect static to find static files.
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
+    os.path.join(PROJECT_ROOT, '..', 'polls', 'static'),
 )
 
 # Simplified static file serving.
