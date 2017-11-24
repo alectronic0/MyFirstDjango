@@ -1,0 +1,15 @@
+{
+  "name": "alectronic-polls",
+  "description": "alectronic-polls",
+  "repository": "https://github.com/alectronic0/alectronic-polls",
+  "keywords": ["python", "django", "alectronic-polls"],
+  "env": {
+    "DJANGO_SECRET_KEY": {
+      "description": "A randomly generated secret to secure your Django installation",
+      "generator": "secret"
+    }
+  },
+  "scripts": {
+    "postdeploy": "sh -c 'python manage.py syncdb --noinput; python manage.py migrate --noinput; python manage.py runscript create_admin'"
+  }
+}

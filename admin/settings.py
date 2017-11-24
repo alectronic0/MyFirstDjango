@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 
 # import dj_database_url
+boss = [('Alec', 'alec@alectronic.co')]
+ADMIN = boss
+MANAGERS = boss
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +29,7 @@ SECRET_KEY = '&yg5pf(f3p_+sqga)e$mjt18-dq!2t#+7#k)v%_2omlx@$*%@h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', '10.0.60.83', 'alectronic-polls.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', 'alectronic-polls.herokuapp.com']
 
 # Application definition
 
@@ -41,13 +44,14 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django_extensions',
 ]
 
 ROOT_URLCONF = 'admin.urls'
