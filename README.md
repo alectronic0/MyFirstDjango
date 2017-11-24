@@ -1,6 +1,6 @@
 # MyFirstDjango
 [![Build Status](https://travis-ci.org/alectronic0/MyFirstDjango.svg?branch=master)](https://travis-ci.org/alectronic0/MyFirstDjango)
-
+[![codecov](https://codecov.io/gh/alectronic0/MyFirstDjango/branch/master/graph/badge.svg)](https://codecov.io/gh/alectronic0/MyFirstDjango)
 ## intro
 
 ## Quickstart
