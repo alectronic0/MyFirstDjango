@@ -7,7 +7,6 @@
 *.pyc
 __pycache__/
 local_settings.py
-db.sqlite3
 media
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
@@ -180,3 +179,4 @@ staticfiles
 .env
 # End of https://www.gitignore.io/api/python,django,pycharm+all
 alectronic-polls/
+!db.sqlite3
