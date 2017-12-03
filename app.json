@@ -8,7 +8,6 @@
   ],
   "website": "http://alectronic-polls.herokuapp.com/",
   "repository": "https://github.com/alectronic0/alectronic-polls",
-  "logo": "",
   "success_url": "/",
   "scripts": {
     "postdeploy": "sh -c 'python manage.py syncdb --noinput; python manage.py migrate --noinput; python manage.py runscript create_admin'"
