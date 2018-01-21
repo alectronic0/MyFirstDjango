@@ -1,0 +1,15 @@
+secret_key: aaaaaaaaa
+
+debug: True
+
+db:
+    ENGINE: django.db.backends.mysql
+    NAME: polls
+    USER: alectronic
+    PASSWORD: password
+    HOST: 127.0.0.1
+    PORT: 3306
+
+
+
+

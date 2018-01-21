@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import yaml
+import re
+import dj_database_url
 
 # import dj_database_url
 boss = [('Alec', 'alec@alectronic.co')]
@@ -20,38 +23,71 @@ MANAGERS = boss
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# pass a variable from python manage.py to here
+env = os.environ.get('APP_ENV', '')
+
+CONFIG_DIR = BASE_DIR + "/config/"
+
+pattern = re.compile(r'^\<%= ENV\[\'(.*)\'\] %\>(.*)$')
+yaml.add_implicit_resolver("!pathex", pattern)
+
+
+def pathex_constructor(loader,node):
+    value = loader.construct_scalar(node)
+    env_var, remaining_path = pattern.match(value).groups()
+    return os.environ[env_var] + remaining_path
+
+
+yaml.add_constructor('!pathex', pathex_constructor)
+
+# Load Default Config File
+with open(CONFIG_DIR + "config.yml", 'r') as ymlfile:
+    default_cfg = yaml.load(ymlfile)
+
+# Attempt a custom Config File
+try:
+    with open(CONFIG_DIR + "config-"+env+".yml", 'r') as ymlfile:
+        custom_cfg = yaml.load(ymlfile)
+except IOError:
+    custom_cfg = {}
+
+default_cfg.update(custom_cfg)
+
+print(default_cfg)
+
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '&yg5pf(f3p_+sqga)e$mjt18-dq!2t#+7#k)v%_2omlx@$*%@h'
+SECRET_KEY = default_cfg['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = default_cfg['debug']
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', 'alectronic-polls.herokuapp.com']
 
 # Application definition
 
 INSTALLED_APPS = [
-    'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'polls.apps.PollsConfig',
+    'django_extensions',
 ]
 
-MIDDLEWARE = [
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+MIDDLEWARE_CLASSES = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'django_extensions',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'admin.urls'
@@ -74,17 +110,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'admin.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
+# we are using heroku you need to use this... I hate it but meh
+# https://devcenter.heroku.com/articles/heroku-postgresql#connecting-with-django
+if default_cfg['heroku']:
+    default_cfg['db'] = dj_database_url.config()
 
-# Update database configuration with $DATABASE_URL.
-# db_from_env = dj_database_url.config()
-# DATABASES['default'].update(db_from_env)
+# Load up the right setting for sqlite3 db
+if default_cfg['db']['ENGINE'] == 'django.db.backends.sqlite3':
+    default_cfg['db']['NAME'] = os.path.join(BASE_DIR, default_cfg['db']['NAME'])
+
+# Database
+# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
+# if this is sqlite3 then use somthing else
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': default_cfg['db']
 }
 
 # Password validation

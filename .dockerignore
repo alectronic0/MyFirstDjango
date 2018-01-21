@@ -1,7 +1,9 @@
 *
 !admin/
+!config/
 !polls/
+!scripts/
 !manage.py
 !runtime.txt
 !requirements.txt
-!db.sqlite3
+!run.sh

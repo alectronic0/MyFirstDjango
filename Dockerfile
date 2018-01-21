@@ -1,13 +1,19 @@
- FROM python:2.7
+FROM python:2.7
 
- ENV PYTHONUNBUFFERED 1
+MAINTAINER "Alec Doran-Twyford <https://github.com/alectronic0/>"
+LABEL maintainer = "Alec Doran-Twyford <https://github.com/alectronic0/>"
 
- RUN mkdir -p /code
- WORKDIR /code
+ENV PYTHONUNBUFFERED 1
 
- COPY requirements.txt /code/
+RUN mkdir -p /code
+WORKDIR /code
 
- RUN pip install -r requirements.txt
+COPY requirements.txt /code/
 
- COPY . /code/
+RUN pip install -r requirements.txt
 
+COPY . /code
+
+ENTRYPOINT ./run.sh
+
+EXPOSE 8000

@@ -1,16 +1,59 @@
 version: '3'
 
 services:
-  alectronic-polls-app:
-    build: .
-    command:
-      - "python"
-      - "manage.py"
-      - "runserver"
-      - "0.0.0.0:8000"
-    ports:
-      - 8000:8000
-#    depends_on:
-#      - db
-#  db:
-#    image: postgres
+    alectronic-polls-web:
+        build: .
+        environment:
+        - APP_ENV=docker
+        - SECRET_KEY=aaaaaaaaaaaa
+        - DEBUG=True
+        - BASE_DIR=/code/
+        - DUMP_DIR=/code/dumps
+        - VIRTUAL_ENV=alectronic-polls
+        - ADMIN_USER=admin
+        - ADMIN_PASSWORD=password
+        - DATABASES_ENGINE=django.db.backends.mysql
+#        - DATABASES_ENGINE=django.db.backends.postgresql
+        - DATABASES_NAME=polls
+        - DATABASES_USER=alectronic
+        - DATABASES_PASSWORD=password
+        - DATABASES_HOST=alectronic-polls-mysql-db
+#        - DATABASES_HOST=alectronic-polls-postgres-db
+        - DATABASES_PORT=3306
+#        - DATABASES_PORT=5432
+        ports:
+        - 8000:8000
+        depends_on:
+        - alectronic-polls-mysql-db
+        - alectronic-polls-postgres-db
+        links:
+        - alectronic-polls-mysql-db
+        - alectronic-polls-postgres-db
+
+    alectronic-polls-mysql-db:
+        image: mysql
+        restart: always
+        environment:
+        - MYSQL_ROOT_PASSWORD=alectronic
+        - MYSQL_USER=alectronic
+        - MYSQL_PASSWORD=password
+        - MYSQL_DATABASE=polls
+        ports:
+        - 3306:3306
+
+    alectronic-polls-postgres-db:
+        image: postgres
+        restart: always
+        environment:
+        - POSTGRES_USER=alectronic
+        - POSTGRES_PASSWORD=password
+        - POSTGRES_DB=polls
+        ports:
+        - 5432:5432
+
+# login with root:password at localhost:8080
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+        - 8080:8080
