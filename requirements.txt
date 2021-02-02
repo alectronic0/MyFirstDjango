@@ -1,4 +1,4 @@
-Django==1.11
+Django==2.2.18
 pytz==2017.3
 wheel==0.24.0
 PyYAML==3.12
